@@ -1,4 +1,5 @@
 import PageShell from './_PageShell';
+import NBAA_LOGO from '../assets/nbaa.png';
 
 export default function Home() {
     return (
@@ -23,7 +24,7 @@ export default function Home() {
                     Book Today!
                 </a>
                 <img
-                    src="/src/assets/nbaa.png"
+                    src={NBAA_LOGO}
                     alt="NBAA"
                     className="h-8 sm:h-15 w-auto opacity-90 hover:opacity-100 transition ml-auto"
                 />
