@@ -25,9 +25,8 @@ export default function Projects() {
             blurb="Bootstrap CTO, Equity Partner"
         >
             {/* Responsive grid layout similar to Photo Gallery */}
-            <div className="glass rounded-3xl p-8 bg-white/10 backdrop-blur-xl ring-1 ring-white/10 hover:ring-white/20 
-transition-all duration-500 grid gap-6 items-center justify-center text-center 
-col-span-full mx-auto w-full max-w-7xl [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+            <div className="col-span-full mx-auto w-full grid gap-6 px-4
+[grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))]">
 
                 {PROJECTS.map((p) => (
                     <Link
