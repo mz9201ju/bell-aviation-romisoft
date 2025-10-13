@@ -8,7 +8,7 @@ import img3 from "../assets/background/background3.jpg";
 import img4 from "../assets/background/background4.jpg";
 
 const IMAGES = [img1, img2, img3, img4];
-const SLIDE_MS = 18000;   // time each image stays on
+const SLIDE_MS = 20000;   // time each image stays on
 const FADE_MS = 1200;   // fade duration
 
 export default function AviationBackground() {

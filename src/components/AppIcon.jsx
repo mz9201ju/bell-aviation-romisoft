@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const iconModules = import.meta.glob("../assets/icons/*.{png,jpg,jpeg,webp,svg}", { eager: true });
 const ICONS = Object.values(iconModules).map((m) => m.default || m);
 
-export default function AppIcon({ intervalMs = 1000 }) {
+export default function AppIcon({ intervalMs = 10000 }) {
     const [idx, setIdx] = useState(0);
 
     useEffect(() => {
