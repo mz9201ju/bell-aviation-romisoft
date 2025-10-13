@@ -92,7 +92,7 @@ export default function Tools() {
                     </div>
 
                     {/* Middle: Tools in Preview */}
-                    <div>
+                    <div className="glass rounded-3xl p-8 bg-white/10 backdrop-blur-xl ring-1 ring-white/10 hover:ring-white/20 transition-all duration-500 flex flex-col items-center justify-center gap-4 text-center">
                         <h3 className="text-3xl font-semibold mb-4">Tools in Preview</h3>
                         <ul className="space-y-3">
                             {PREVIEW_TOOLS.map((t) => (
@@ -101,9 +101,13 @@ export default function Tools() {
                                         href={t.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 rounded-xl px-4 py-2
-                               bg-white/5 hover:bg-white/10 ring-1 ring-white/10 hover:ring-white/20
-                               transition text-sky-300"
+                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 
+                                                    rounded-xl px-5 py-3 font-medium
+                                                    bg-white/10 text-sky-300 backdrop-blur-sm
+                                                    ring-1 ring-white/10 hover:ring-white/30 
+                                                    hover:bg-white/20 hover:text-sky-200
+                                                    transition-all duration-300 ease-out 
+                                                    hover:scale-105 hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95"
                                     >
                                         {t.label}
                                         <ExternalIcon />
@@ -114,7 +118,7 @@ export default function Tools() {
                     </div>
 
                     {/* Right: Legacy Help */}
-                    <div>
+                    <div className="glass rounded-3xl p-8 bg-white/10 backdrop-blur-xl ring-1 ring-white/10 hover:ring-white/20 transition-all duration-500 flex flex-col items-center justify-center gap-4 text-center">
                         <h3 className="text-3xl font-semibold mb-4">Legacy Help</h3>
                         <ul className="space-y-3">
                             {LEGACY_HELP.map((t) => (
@@ -123,9 +127,13 @@ export default function Tools() {
                                         href={t.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 rounded-xl px-4 py-2
-                               bg-white/5 hover:bg-white/10 ring-1 ring-white/10 hover:ring-white/20
-                               transition text-sky-300"
+                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 
+                                                    rounded-xl px-5 py-3 font-medium
+                                                    bg-white/10 text-sky-300 backdrop-blur-sm
+                                                    ring-1 ring-white/10 hover:ring-white/30 
+                                                    hover:bg-white/20 hover:text-sky-200
+                                                    transition-all duration-300 ease-out 
+                                                    hover:scale-105 hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95"
                                     >
                                         {t.label}
                                         <ExternalIcon />
@@ -146,7 +154,7 @@ export default function Tools() {
                             key={a.slug}
                             to={`/gallery/${a.slug}`} // if using React Router, replace with <Link to=...>
                             className="group block overflow-hidden rounded-2xl ring-1 ring-white/10 hover:ring-white/20 transition
-                         bg-white/5 backdrop-blur-md"
+                   bg-white/5 backdrop-blur-md min-w-0"   // 👈 add min-w-0
                         >
                             {/* Folder-style header */}
                             <div className="flex items-center gap-3 px-4 pt-4">
