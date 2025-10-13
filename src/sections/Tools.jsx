@@ -14,7 +14,7 @@ import ROMX_BDMConsole from "../assets/gallery/ROMX_BDM_Console.png";
  * Change these strings to tune alignment, spacing, heights, etc. across the page.
  * --------------------------------------------------------------------------- */
 const UI = {
-    container: "w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8", // overall padding + centering
+    container: "w-full max-w-xl mx-auto px-4 md:px-8", // overall padding + centering
     // Responsive grid for top area: stacks on mobile, 3 columns on md+
     topGrid: "grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-3",
     // Shared glass card shell
