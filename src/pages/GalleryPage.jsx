@@ -25,8 +25,8 @@ export default function GalleryPage() {
 
     return (
         <PageShell title={`${title} Album`} blurb="Click any photo to view full size.">
-            <div className="col-span-full mx-auto w-full max-w-7xl grid gap-6
-                      [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+            <div className="col-span-full mx-auto w-full grid gap-6 px-4
+[grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))]">
                 <div className="mb-6">
                     <Link
                         to="/tools"
