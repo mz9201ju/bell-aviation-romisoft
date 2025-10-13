@@ -1,0 +1,207 @@
+import { Link } from "react-router-dom";
+import PageShell from "./_PageShell";
+// If you have thumbnails, import them (or use `public/` paths)
+import Calc from "../assets/gallery/Calc.png";
+import Cost from "../assets/gallery/Cost.png";
+import Distance from "../assets/gallery/Distance.png";
+import Range from "../assets/gallery/Range.png";
+import ROMXLegacyWindowsUI from "../assets/gallery/ROMX_Legacy_WindowsUI.jpg";
+import ROMXWindowsUI from "../assets/gallery/ROMX_WindowsUI.jpg";
+import ROMX_BDMConsole from "../assets/gallery/ROMX_BDM_Console.png";
+
+const PREVIEW_TOOLS = [
+    { label: "Cost", href: "https://www.romisoft.net/vqc/" },
+    { label: "Calc", href: "https://www.romisoft.net/vcc/" },
+    { label: "Range", href: "https://www.romisoft.net/vrm/" },
+    { label: "Distance", href: "https://www.romisoft.net/vqd/" },
+];
+
+const LEGACY_HELP = [
+    { label: "BDM", href: "https://romisoft.net/bdm/" },
+    { label: "BDMX", href: "https://romisoft.net/bdmx/" },
+    { label: "ROMX", href: "https://romisoft.net/romx/" },
+];
+
+const ALBUMS = [
+    {
+        slug: "ROMX_WINDOWS_UI",
+        title: "ROMX Windows UI",
+        count: 7,
+        cover: ROMXWindowsUI,
+        blurb: "ROMX: Modern User Interface.",
+    },
+    {
+        slug: "ROMX_LEGACY_WINDOWS_UI",
+        title: "ROMX Legacy Windows UI",
+        count: 8,
+        cover: ROMXLegacyWindowsUI,
+        blurb: "ROMX: Legacy User Interface",
+    },
+    {
+        slug: "ROMX_BDM_CONSOLE",
+        title: "ROMX/BDM Console",
+        count: 21,
+        cover: ROMX_BDMConsole,
+        blurb: "Legacy BDM/ROMX Original Console Application",
+    },
+    {
+        slug: "CALC",
+        title: "Quick Calc",
+        count: 2,
+        cover: Calc,
+        blurb: "Quick Calc",
+    },
+    {
+        slug: "COST",
+        title: "Quick Cost",
+        count: 8,
+        cover: Cost,
+        blurb: "Quick Cost",
+    },
+    {
+        slug: "DISTANCE",
+        title: "Quick Distance",
+        count: 4,
+        cover: Distance,
+        blurb: "Quick Distance",
+    },
+    {
+        slug: "RANGE",
+        title: "Quick Distance",
+        count: 3,
+        cover: Range,
+        blurb: "Quick Distance",
+    }
+];
+
+export default function Tools() {
+    return (
+        <PageShell>
+            {/* --- Top 3-column section --- */}
+            <section className="col-span-full mx-auto w-full max-w-7xl grid gap-6
+                      [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+                <div className="grid gap-10 md:grid-cols-3">
+                    {/* Left: Description */}
+                    <div className="space-y-4">
+                        <h2 className="text-3xl font-semibold">ROMX</h2>
+                        <p className="text-white/80 leading-relaxed">
+                            One integrated solution for Maintenance Tracking (TLMC), Utilization,
+                            Inventory Management (multi-site/owners), Airworthiness Directives
+                            (Compliance), and reporting. Built for flight-grade reliability.
+                        </p>
+                    </div>
+
+                    {/* Middle: Tools in Preview */}
+                    <div>
+                        <h3 className="text-3xl font-semibold mb-4">Tools in Preview</h3>
+                        <ul className="space-y-3">
+                            {PREVIEW_TOOLS.map((t) => (
+                                <li key={t.label}>
+                                    <a
+                                        href={t.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 rounded-xl px-4 py-2
+                               bg-white/5 hover:bg-white/10 ring-1 ring-white/10 hover:ring-white/20
+                               transition text-sky-300"
+                                    >
+                                        {t.label}
+                                        <ExternalIcon />
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Right: Legacy Help */}
+                    <div>
+                        <h3 className="text-3xl font-semibold mb-4">Legacy Help</h3>
+                        <ul className="space-y-3">
+                            {LEGACY_HELP.map((t) => (
+                                <li key={t.label}>
+                                    <a
+                                        href={t.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 rounded-xl px-4 py-2
+                               bg-white/5 hover:bg-white/10 ring-1 ring-white/10 hover:ring-white/20
+                               transition text-sky-300"
+                                    >
+                                        {t.label}
+                                        <ExternalIcon />
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            {/* --- Photo Gallery (Albums) --- */}
+            <section className="col-span-full mx-auto w-full max-w-7xl grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+                <h3 className="col-span-full text-3xl font-semibold">Photo Gallery</h3>
+                <div className="col-span-full grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    {ALBUMS.map((a) => (
+                        <Link
+                            key={a.slug}
+                            to={`/gallery/${a.slug}`} // if using React Router, replace with <Link to=...>
+                            className="group block overflow-hidden rounded-2xl ring-1 ring-white/10 hover:ring-white/20 transition
+                         bg-white/5 backdrop-blur-md"
+                        >
+                            {/* Folder-style header */}
+                            <div className="flex items-center gap-3 px-4 pt-4">
+                                <FolderIcon />
+                                <div className="font-semibold">{a.title}</div>
+                                <div className="ml-auto text-sm text-white/70">{a.count} photos</div>
+                            </div>
+
+                            {/* Cover image */}
+                            <div className="relative w-full aspect-[4/3] mt-3">
+                                <img
+                                    src={a.cover}
+                                    alt={`${a.title} cover`}
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300
+                             group-hover:scale-[1.03]"
+                                    loading="lazy"
+                                />
+                                <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
+                                    <p className="text-white/90 text-sm">{a.blurb}</p>
+                                </div>
+                            </div>
+
+                            {/* CTA footer */}
+                            <div className="px-4 py-3 flex items-center gap-2 text-sky-300">
+                                Open album <ArrowRight />
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+        </PageShell>
+    );
+}
+
+/* --- tiny inline icons --- */
+function ExternalIcon() {
+    return (
+        <svg width="16" height="16" viewBox="0 0 24 24" className="opacity-80">
+            <path fill="currentColor" d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z" />
+            <path fill="currentColor" d="M5 5h5V3H3v7h2V5z" />
+            <path fill="currentColor" d="M5 21h14a2 2 0 0 0 2-2v-8h-2v8H5V7H3v12a2 2 0 0 0 2 2z" />
+        </svg>
+    );
+}
+function FolderIcon() {
+    return (
+        <svg width="20" height="20" viewBox="0 0 24 24" className="text-yellow-300/90">
+            <path fill="currentColor" d="M10 4l2 2h8a2 2 0 0 1 2 2v1H2V6a2 2 0 0 1 2-2h6zm12 6H2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8z" />
+        </svg>
+    );
+}
+function ArrowRight() {
+    return (
+        <svg width="16" height="16" viewBox="0 0 24 24" className="opacity-80">
+            <path fill="currentColor" d="M10 17l5-5-5-5v10z" />
+        </svg>
+    );
+}
