@@ -9,6 +9,48 @@ import ROMXLegacyWindowsUI from "../assets/gallery/ROMX_Legacy_WindowsUI.jpg";
 import ROMXWindowsUI from "../assets/gallery/ROMX_WindowsUI.jpg";
 import ROMX_BDMConsole from "../assets/gallery/ROMX_BDM_Console.png";
 
+/* -----------------------------------------------------------------------------
+ * TWEAKABLE UI CONFIG (centralized Tailwind knobs)
+ * Change these strings to tune alignment, spacing, heights, etc. across the page.
+ * --------------------------------------------------------------------------- */
+const UI = {
+    container: "w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8", // overall padding + centering
+    // Responsive grid for top area: stacks on mobile, 3 columns on md+
+    topGrid: "grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-3",
+    // Shared glass card shell
+    panel:
+        "glass rounded-3xl ring-1 ring-white/10 hover:ring-white/20 " +
+        "bg-white/10 backdrop-blur-xl transition-all duration-500 " +
+        // sizing/alignment you’ll likely tweak the most:
+        "p-6 sm:p-8 flex flex-col items-center justify-center text-center " +
+        "min-h-[180px] sm:min-h-[160px] md:min-h-[140px]",
+    // Title inside panels
+    panelTitle: "text-2xl sm:text-3xl font-semibold mb-4",
+    // Button row in the panels
+    panelBtnRow: "flex flex-wrap justify-center gap-3", // wraps on mobile ➜ no overflow
+    // Individual button/link styles
+    cta:
+        "inline-flex items-center justify-between gap-2 rounded-xl px-5 py-3 " +
+        "font-medium bg-white/10 text-sky-300 backdrop-blur-sm " +
+        "ring-1 ring-white/10 hover:ring-white/30 hover:bg-white/20 hover:text-sky-200 " +
+        "transition-all duration-300 ease-out hover:scale-105 " +
+        "hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95 w-full sm:w-auto",
+    // Section wrappers (so spacing is consistent)
+    section:
+        "col-span-full " +
+        // mobile-first container with grid utility you were using
+        "grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]",
+    // Photo grid
+    albumGrid: "col-span-full grid gap-8 sm:grid-cols-2 lg:grid-cols-3",
+    // Card shell for an album
+    albumCard:
+        "group block overflow-hidden rounded-2xl ring-1 ring-white/10 " +
+        "hover:ring-white/20 transition bg-white/5 backdrop-blur-md min-w-0",
+};
+
+/* -----------------------------------------------------------------------------
+ * DATA
+ * --------------------------------------------------------------------------- */
 const PREVIEW_TOOLS = [
     { label: "Cost", href: "https://www.romisoft.net/vqc/" },
     { label: "Calc", href: "https://www.romisoft.net/vcc/" },
@@ -71,17 +113,58 @@ const ALBUMS = [
         count: 3,
         cover: Range,
         blurb: "Quick Distance",
-    }
+    },
 ];
 
+/* -----------------------------------------------------------------------------
+ * SMALL, REUSABLE UI PRIMITIVES
+ * --------------------------------------------------------------------------- */
+
+/** External link button used in both panels */
+function ButtonLink({ href, children }) {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={UI.cta}
+        >
+            {children}
+            <ExternalIcon />
+        </a>
+    );
+}
+
+
+/** DRY “glass” panel with title + list of links */
+function LinkPanel({ title, items }) {
+    return (
+        <div className={UI.panel}>
+            <h3 className={UI.panelTitle}>{title}</h3>
+
+            {/* Wrap + center so buttons never overflow on phones */}
+            <div className={UI.panelBtnRow}>
+                {items.map((t) => (
+                    <ButtonLink key={t.label} href={t.href}>
+                        {t.label}
+                    </ButtonLink>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+
+/* -----------------------------------------------------------------------------
+ * PAGE
+ * --------------------------------------------------------------------------- */
 export default function Tools() {
     return (
         <PageShell>
-            {/* --- Top 3-column section --- */}
-            <section className="col-span-full mx-auto w-full max-w-7xl grid gap-6
-                      [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
-                <div className="grid gap-10 md:grid-cols-3">
-                    {/* Left: Description */}
+            {/* --- Top section: description + two “glass” panels --- */}
+            <section className={`${UI.container} ${UI.section}`}>
+                <div className={UI.topGrid}>
+                    {/* Left: Description (copy unchanged, just padding is governed by UI.container) */}
                     <div className="space-y-4">
                         <h2 className="text-3xl font-semibold">ROMX</h2>
                         <p className="text-white/80 leading-relaxed">
@@ -92,69 +175,23 @@ export default function Tools() {
                     </div>
 
                     {/* Middle: Tools in Preview */}
-                    <div className="glass rounded-3xl p-8 bg-white/10 backdrop-blur-xl ring-1 ring-white/10 hover:ring-white/20 transition-all duration-500 flex flex-col items-center justify-center gap-4 text-center">
-                        <h3 className="text-3xl font-semibold mb-4">Tools in Preview</h3>
-                        <ul className="space-y-3">
-                            {PREVIEW_TOOLS.map((t) => (
-                                <li key={t.label}>
-                                    <a
-                                        href={t.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 
-                                                    rounded-xl px-5 py-3 font-medium
-                                                    bg-white/10 text-sky-300 backdrop-blur-sm
-                                                    ring-1 ring-white/10 hover:ring-white/30 
-                                                    hover:bg-white/20 hover:text-sky-200
-                                                    transition-all duration-300 ease-out 
-                                                    hover:scale-105 hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95"
-                                    >
-                                        {t.label}
-                                        <ExternalIcon />
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <LinkPanel title="Tools in Preview" items={PREVIEW_TOOLS} />
 
                     {/* Right: Legacy Help */}
-                    <div className="glass rounded-3xl p-8 bg-white/10 backdrop-blur-xl ring-1 ring-white/10 hover:ring-white/20 transition-all duration-500 flex flex-col items-center justify-center gap-4 text-center">
-                        <h3 className="text-3xl font-semibold mb-4">Legacy Help</h3>
-                        <ul className="space-y-3">
-                            {LEGACY_HELP.map((t) => (
-                                <li key={t.label}>
-                                    <a
-                                        href={t.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-between w-full md:w-auto gap-2 
-                                                    rounded-xl px-5 py-3 font-medium
-                                                    bg-white/10 text-sky-300 backdrop-blur-sm
-                                                    ring-1 ring-white/10 hover:ring-white/30 
-                                                    hover:bg-white/20 hover:text-sky-200
-                                                    transition-all duration-300 ease-out 
-                                                    hover:scale-105 hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95"
-                                    >
-                                        {t.label}
-                                        <ExternalIcon />
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <LinkPanel title="Legacy Help" items={LEGACY_HELP} />
                 </div>
             </section>
 
             {/* --- Photo Gallery (Albums) --- */}
-            <section className="col-span-full mx-auto w-full max-w-7xl grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
+            <section className={`${UI.container} ${UI.section}`}>
                 <h3 className="col-span-full text-3xl font-semibold">Photo Gallery</h3>
-                <div className="col-span-full grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+
+                <div className={UI.albumGrid}>
                     {ALBUMS.map((a) => (
                         <Link
                             key={a.slug}
                             to={`/gallery/${a.slug}`} // if using React Router, replace with <Link to=...>
-                            className="group block overflow-hidden rounded-2xl ring-1 ring-white/10 hover:ring-white/20 transition
-                   bg-white/5 backdrop-blur-md min-w-0"   // 👈 add min-w-0
+                            className={UI.albumCard}
                         >
                             {/* Folder-style header */}
                             <div className="flex items-center gap-3 px-4 pt-4">
@@ -168,8 +205,7 @@ export default function Tools() {
                                 <img
                                     src={a.cover}
                                     alt={`${a.title} cover`}
-                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300
-                             group-hover:scale-[1.03]"
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                                     loading="lazy"
                                 />
                                 <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
