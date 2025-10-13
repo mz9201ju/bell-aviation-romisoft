@@ -1,16 +1,85 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# ✈️ Bell Aviation LLC
 
-Currently, two official plugins are available:
+**Bell Aviation LLC** is a modern aviation website built using **React + Vite + Tailwind CSS**, designed to showcase aircraft services, gallery, and company information with a clean, glass-morphism UI and mobile-first responsiveness.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Bell Aviation Screenshot](https://api.microlink.io?url=https://mz9201ju.github.io/bell-aviation-romisoft/&screenshot=true&type=png&meta=false&embed=screenshot.url)
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Project Overview
 
-## Expanding the ESLint configuration
+Bell Aviation represents a sleek, high-performance web experience for an aviation business.  
+It includes a responsive photo gallery, a service catalog, and interactive navigation components optimized for all devices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🌐 Live Demo
+🔗 [https://mz9201ju.github.io/bell-aviation-romisoft/](https://mz9201ju.github.io/bell-aviation-romisoft/)
+
+---
+
+## 🧰 Tech Stack
+
+| Category | Technology |
+|-----------|-------------|
+| **Frontend** | React (Vite) |
+| **Styling** | Tailwind CSS with Glassmorphism |
+| **Routing** | React Router DOM |
+| **Hosting** | GitHub Pages |
+| **CI/CD** | GitHub Actions |
+| **Icons & UI** | Lucide React / HeroIcons |
+| **Optional Backend (future)** | Cloudflare Workers for comments or API endpoints |
+
+---
+
+## ⚙️ Setup & Run Locally
+
+# 1️⃣ Clone repo
+git clone https://github.com/mz9201ju/bell-aviation-romisoft.git
+cd bell-aviation-romisoft
+
+# 2️⃣ Install dependencies
+npm install
+
+# 3️⃣ Start development server
+npm run dev
+
+# 4️⃣ Build for production
+npm run build
+
+# 5️⃣ Preview build locally
+npm run preview
+
+## 💡 Features
+
+- ✈️ **Clean, professional aviation-themed UI**
+- 📸 **Interactive photo gallery** with album-style cards
+- 💼 **Services section** with modern glass cards
+- 📰 **News page** with image posts & comment placeholders
+- 🌙 **Fully responsive layout** (mobile-first)
+- 💬 **Future integration:** Cloudflare-based comment API
+
+---
+
+## 🔮 Future Enhancements
+
+- Add backend comments API via **Cloudflare Worker** or **D1**
+- Add **animations** for aircraft banners
+- Include **booking/contact form** integration
+- Add **multi-language support** (EN / AR / URDU)
+
+---
+
+## 🧑‍✈️ Author
+
+**Omer Zahid**  
+Senior Software Engineer | Full-Stack Developer  
+📍 USA | 🌐 [GitHub Profile](https://github.com/mz9201ju)
+
+---
+
+## 🪪 License
+
+This project is licensed under the **MIT License** — feel free to use and adapt it for your own aviation or corporate site.
+
+> “**Expertise in the Skies — Powered by Code and Creativity.**” ☁️
