@@ -42,8 +42,9 @@ export default function AviationBackground() {
         />
       ))}
 
-      {/* Gentle contrast overlay so text stays readable */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/25 via-black/5 to-black/50" />
+      {/* 🩶 Gentle contrast overlay so text stays readable */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-black/60 to-black/60" />
+
     </div>
   );
 }
