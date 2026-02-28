@@ -47,17 +47,52 @@ npm run dev
 # 4️⃣ Build for production
 npm run build
 
+# Optional: run image optimization manually
+npm run optimize:images
+
 # 5️⃣ Preview build locally
 npm run preview
+
+> Note: `npm run build` automatically runs image optimization (`prebuild`) for JPG/PNG assets in `src/assets`.
 
 ## 💡 Features
 
 - ✈️ **Clean, professional aviation-themed UI**
-- 📸 **Interactive photo gallery** with album-style cards
+- 📸 **Interactive photo gallery** with in-page image preview modal
 - 💼 **Services section** with modern glass cards
 - 📰 **News page** with image posts & comment placeholders
 - 🌙 **Fully responsive layout** (mobile-first)
+- ↔️ **Image navigation controls** with keyboard arrows + touch swipe in modal
 - 💬 **Future integration:** Cloudflare-based comment API
+
+---
+
+## 🧱 Architecture & Standards
+
+- **Data / config separation:** shared static arrays moved to `src/data/*`
+- **Shared business logic:** reusable transforms in `src/lib/*`
+- **Route performance:** route-level lazy loading in `src/routes/AppRoutes.jsx`
+- **Image modal system:** shared in-page viewer in `src/components/ImageLightbox.jsx`
+- **Responsive CSS split:**
+	- Base styles: `src/index.css`
+	- Mobile-only styles: `src/styles/mobile.css`
+	- Desktop-only styles: `src/styles/desktop.css`
+- **Image optimization pipeline:** `src/scripts/optimize-images.mjs` via `npm run optimize:images` and `prebuild`
+
+---
+
+## 📱 Responsive & Image Behavior Rules
+
+- Images in News, About, Aircraft, Tools, Gallery, and Projects open **in the same page** (modal), not a new tab.
+- Click outside image or press `Esc` to close.
+- Use `ArrowLeft` / `ArrowRight` (desktop) or swipe (mobile) to navigate images.
+- For future responsive troubleshooting, keep cross-page mobile/desktop rules in their dedicated stylesheets.
+
+### ✅ Latest Mobile QA Improvements
+- Page shell layout now avoids early two-column squeeze on small devices.
+- Home, Contact, and Service sections were adjusted for better phone spacing and readability.
+- Navbar brand text now handles narrow widths without overflow.
+- Lightbox controls are tuned for both touch and desktop interactions.
 
 ---
 

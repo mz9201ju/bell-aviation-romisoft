@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ImageLightbox from "../components/ImageLightbox";
 
 // Put your images in /src/assets/news/*
 import pic1 from "../assets/news/NEWS1.jpg";
@@ -50,64 +51,78 @@ const POSTS = [
 ];
 
 export default function News() {
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const currentImages = POSTS[0]?.images ?? [];
+
     return (
-        <section className={UI.cls.page}>
-            <header className="grid gap-2">
-                <h1 className={UI.cls.h1}>News</h1>
-                <p className={UI.cls.tag}>Press notes, product drops, and ops updates.</p>
-            </header>
+        <>
+            <section className={UI.cls.page}>
+                <header className="grid gap-2">
+                    <h1 className={UI.cls.h1}>News</h1>
+                    <p className={UI.cls.tag}>Press notes, product drops, and ops updates.</p>
+                </header>
 
-            {/* Posts */}
-            <div className="grid gap-6">
-                {POSTS.map((post) => (
-                    <article key={post.id} className={UI.cls.card}>
-                        <div className="flex items-baseline justify-between gap-4 flex-wrap">
-                            <h2 className={UI.cls.h2}>{post.title}</h2>
-                            <time className={`${UI.cls.small} text-glow`}>
-                                {UI.fmtDate(post.date)}
-                            </time>
-                        </div>
+                {/* Posts */}
+                <div className="grid gap-6">
+                    {POSTS.map((post) => (
+                        <article key={post.id} className={UI.cls.card}>
+                            <div className="flex items-baseline justify-between gap-4 flex-wrap">
+                                <h2 className={UI.cls.h2}>{post.title}</h2>
+                                <time className={`${UI.cls.small} text-glow`}>
+                                    {UI.fmtDate(post.date)}
+                                </time>
+                            </div>
 
-                        <p className={`${UI.cls.body} mt-3`}>{post.body}</p>
+                            <p className={`${UI.cls.body} mt-3`}>{post.body}</p>
 
-                        {!!post.images?.length && <ImageGrid images={post.images} />}
-                    </article>
-                ))}
-            </div>
+                            {!!post.images?.length && (
+                                <ImageGrid images={post.images} onImageClick={setSelectedIndex} />
+                            )}
+                        </article>
+                    ))}
+                </div>
 
-            {/* Comments (UI-only, no persistence) */}
-            <CommentSection postId="nbaa-2025" />
-        </section>
+                {/* Comments (UI-only, no persistence) */}
+                <CommentSection />
+            </section>
+
+            <ImageLightbox
+                src={selectedIndex !== null ? currentImages[selectedIndex] : null}
+                alt={selectedIndex !== null ? `News image ${selectedIndex + 1}` : ''}
+                onClose={() => setSelectedIndex(null)}
+                canNavigate={selectedIndex !== null && currentImages.length > 1}
+                onPrev={() => setSelectedIndex((current) => (current - 1 + currentImages.length) % currentImages.length)}
+                onNext={() => setSelectedIndex((current) => (current + 1) % currentImages.length)}
+            />
+        </>
     );
 }
 
 /** Reusable grid with hover-zoom images */
-function ImageGrid({ images }) {
+function ImageGrid({ images, onImageClick }) {
     return (
         <div className={UI.img.grid}>
             {images.map((src, i) => (
-                <figure key={i} className={UI.img.wrapper} aria-label="News image">
+                <button
+                    type="button"
+                    key={i}
+                    className={`${UI.img.wrapper} w-full text-left`}
+                    aria-label="Open news image"
+                    onClick={() => onImageClick(i)}
+                >
                     <img src={src} alt="" className={`${UI.img.img} ${UI.img.height}`} />
                     {/* Subtle overlay for contrast on hover */}
                     <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity bg-black" />
-                </figure>
+                </button>
             ))}
         </div>
     );
 }
 
-function CommentSection({ postId }) {
+function CommentSection() {
     const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [status, setStatus] = useState("idle"); // "idle" | "submitting" | "done"
     const [comments, setComments] = useState([]); // [{ id, name, message, created_at }]
-
-    // Placeholder: load comments later via Cloudflare
-    // useEffect(() => {
-    //   fetch(`/api/comments?postId=${postId}`)
-    //     .then((r) => r.json())
-    //     .then(setComments)
-    //     .catch(() => {});
-    // }, [postId]);
 
     async function onSubmit(e) {
         e.preventDefault();
@@ -125,7 +140,7 @@ function CommentSection({ postId }) {
         // await fetch("/api/comments", {
         //   method: "POST",
         //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ postId, ...form }),
+        //   body: JSON.stringify(form),
         // });
 
         setStatus("done");

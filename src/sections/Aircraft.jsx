@@ -1,4 +1,6 @@
 import PageShell from './_PageShell';
+import { useState } from 'react';
+import ImageLightbox from '../components/ImageLightbox';
 import aircraft1 from "../assets/aircrafts/aircraft1.jpeg";
 import aircraft2 from '../assets/aircrafts/aircraft2.jpeg';
 import aircraft3 from '../assets/aircrafts/aircraft3.jpeg';
@@ -18,40 +20,51 @@ const AIRCRAFT = [
 ];
 
 export default function Aircraft() {
+    const [selectedIndex, setSelectedIndex] = useState(null);
+
     return (
-        <PageShell
-            title="Fleet"
-            blurb="Pictures of our Airplanes"
-        >
-            {/* ✅ Responsive grid with a minimum card width so tiles don’t collapse */}
-            <div className="col-span-full mx-auto w-full max-w-7xl grid gap-6
-                      [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]">
-                <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
-                    {AIRCRAFT.map((plane) => (
-                        <a
-                            key={plane.id}
-                            href={plane.img}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group block w-full rounded-2xl overflow-hidden bg-black/20 backdrop-blur-sm ring-1 ring-white/10 hover:ring-white/20 transition"
-                        >
-                            {/* ✅ Force a normal photo shape */}
-                            <div className="relative w-full aspect-[16/10] overflow-hidden">
-                                <img
-                                    src={plane.img}
-                                    alt={plane.name}
-                                    loading="lazy"
-                                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                />
-                                {/* subtle gradient + title */}
-                                <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/50 to-transparent">
-                                    <span className="text-white font-semibold drop-shadow">{plane.name}</span>
+        <>
+            <PageShell
+                title="Fleet"
+                blurb="Pictures of our Airplanes"
+            >
+                {/* ✅ Responsive grid with a minimum card width so tiles don’t collapse */}
+                <div className="col-span-full mx-auto w-full max-w-7xl grid gap-6
+                        [grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))]">
+                    <div className="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+                        {AIRCRAFT.map((plane, index) => (
+                            <button
+                                key={plane.id}
+                                type="button"
+                                onClick={() => setSelectedIndex(index)}
+                                className="group block w-full rounded-2xl overflow-hidden bg-black/20 backdrop-blur-sm ring-1 ring-white/10 hover:ring-white/20 transition text-left"
+                                aria-label={`Open ${plane.name} image`}
+                            >
+                                <div className="relative w-full aspect-[16/10] overflow-hidden">
+                                    <img
+                                        src={plane.img}
+                                        alt={plane.name}
+                                        loading="lazy"
+                                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/50 to-transparent">
+                                        <span className="text-white font-semibold drop-shadow">{plane.name}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    ))}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </PageShell>
+            </PageShell>
+
+            <ImageLightbox
+                src={selectedIndex !== null ? AIRCRAFT[selectedIndex]?.img : null}
+                alt={selectedIndex !== null ? AIRCRAFT[selectedIndex]?.name : ''}
+                onClose={() => setSelectedIndex(null)}
+                canNavigate={selectedIndex !== null && AIRCRAFT.length > 1}
+                onPrev={() => setSelectedIndex((current) => (current - 1 + AIRCRAFT.length) % AIRCRAFT.length)}
+                onNext={() => setSelectedIndex((current) => (current + 1) % AIRCRAFT.length)}
+            />
+        </>
     );
 }

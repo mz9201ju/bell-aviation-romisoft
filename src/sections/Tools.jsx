@@ -1,20 +1,15 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import ImageLightbox from "../components/ImageLightbox";
 import PageShell from "./_PageShell";
-// If you have thumbnails, import them (or use `public/` paths)
-import Calc from "../assets/gallery/Calc.png";
-import Cost from "../assets/gallery/Cost.png";
-import Distance from "../assets/gallery/Distance.png";
-import Range from "../assets/gallery/Range.png";
-import ROMXLegacyWindowsUI from "../assets/gallery/ROMX_Legacy_WindowsUI.jpg";
-import ROMXWindowsUI from "../assets/gallery/ROMX_WindowsUI.jpg";
-import ROMX_BDMConsole from "../assets/gallery/ROMX_BDM_Console.png";
+import { LEGACY_HELP, PREVIEW_TOOLS, TOOL_ALBUMS } from "../data/toolsData";
 
 /* -----------------------------------------------------------------------------
  * TWEAKABLE UI CONFIG (centralized Tailwind knobs)
  * Change these strings to tune alignment, spacing, heights, etc. across the page.
  * --------------------------------------------------------------------------- */
 const UI = {
-    container: "w-full max-w-7x mx-auto px-4 md:px-8", // overall padding + centering
+    container: "w-full max-w-7xl mx-auto px-4 md:px-8", // overall padding + centering
     // Responsive grid for top area: stacks on mobile, 3 columns on md+
     topGrid: "grid gap-6 md:gap-10 grid-cols-1 md:grid-cols-3",
     // Shared glass card shell
@@ -22,26 +17,23 @@ const UI = {
         "glass rounded-3xl ring-1 ring-white/10 hover:ring-white/20 " +
         "bg-white/10 backdrop-blur-xl transition-all duration-500 " +
         // sizing/alignment you’ll likely tweak the most:
-        "p-6 sm:p-8 flex flex-col items-center justify-center text-center " +
+        "p-5 sm:p-8 flex flex-col items-stretch sm:items-center justify-center text-left sm:text-center " +
         "min-h-[180px] sm:min-h-[160px] md:min-h-[140px]",
     // Title inside panels
-    panelTitle: "text-2xl sm:text-3xl font-semibold mb-4",
+    panelTitle: "text-xl sm:text-3xl font-semibold mb-4",
     // Button row in the panels
-    panelBtnRow: "flex flex-wrap justify-center gap-3", // wraps on mobile ➜ no overflow
+    panelBtnRow: "grid gap-2 w-full sm:flex sm:flex-wrap sm:justify-center sm:gap-3", // mobile-safe stack
     // Individual button/link styles
     cta:
         "inline-flex items-center justify-between gap-2 rounded-xl px-5 py-3 " +
         "font-medium bg-white/10 text-sky-300 backdrop-blur-sm " +
         "ring-1 ring-white/10 hover:ring-white/30 hover:bg-white/20 hover:text-sky-200 " +
         "transition-all duration-300 ease-out hover:scale-105 " +
-        "hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95 w-full sm:w-auto",
+        "hover:shadow-[0_0_15px_rgba(56,189,248,0.5)] active:scale-95 w-full sm:w-auto min-w-0",
     // Section wrappers (so spacing is consistent)
-    section:
-        "col-span-full " +
-        // mobile-first container with grid utility you were using
-        "grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(320px,1fr))]",
+    section: "col-span-full w-full grid gap-6",
     // Photo grid
-    albumGrid: "col-span-full grid gap-8 sm:grid-cols-2 lg:grid-cols-3",
+    albumGrid: "col-span-full w-full grid gap-8 sm:grid-cols-2 lg:grid-cols-3",
     // Card shell for an album
     albumCard:
         "group block overflow-hidden rounded-2xl ring-1 ring-white/10 " +
@@ -51,71 +43,6 @@ const UI = {
 /* -----------------------------------------------------------------------------
  * DATA
  * --------------------------------------------------------------------------- */
-const PREVIEW_TOOLS = [
-    { label: "Cost", href: "https://www.romisoft.net/vqc/" },
-    { label: "Calc", href: "https://www.romisoft.net/vcc/" },
-    { label: "Range", href: "https://www.romisoft.net/vrm/" },
-    { label: "Distance", href: "https://www.romisoft.net/vqd/" },
-];
-
-const LEGACY_HELP = [
-    { label: "BDM", href: "https://romisoft.net/bdm/" },
-    { label: "BDMX", href: "https://romisoft.net/bdmx/" },
-    { label: "ROMX", href: "https://romisoft.net/romx/" },
-];
-
-const ALBUMS = [
-    {
-        slug: "ROMX_WINDOWS_UI",
-        title: "ROMX Windows UI",
-        count: 7,
-        cover: ROMXWindowsUI,
-        blurb: "ROMX: Modern User Interface.",
-    },
-    {
-        slug: "ROMX_LEGACY_WINDOWS_UI",
-        title: "ROMX Legacy Windows UI",
-        count: 8,
-        cover: ROMXLegacyWindowsUI,
-        blurb: "ROMX: Legacy User Interface",
-    },
-    {
-        slug: "ROMX_BDM_CONSOLE",
-        title: "ROMX/BDM Console",
-        count: 21,
-        cover: ROMX_BDMConsole,
-        blurb: "Legacy BDM/ROMX Original Console Application",
-    },
-    {
-        slug: "CALC",
-        title: "Quick Calc",
-        count: 2,
-        cover: Calc,
-        blurb: "Quick Calc",
-    },
-    {
-        slug: "COST",
-        title: "Quick Cost",
-        count: 8,
-        cover: Cost,
-        blurb: "Quick Cost",
-    },
-    {
-        slug: "DISTANCE",
-        title: "Quick Distance",
-        count: 4,
-        cover: Distance,
-        blurb: "Quick Distance",
-    },
-    {
-        slug: "RANGE",
-        title: "Quick Distance",
-        count: 3,
-        cover: Range,
-        blurb: "Quick Distance",
-    },
-];
-
 /* -----------------------------------------------------------------------------
  * SMALL, REUSABLE UI PRIMITIVES
  * --------------------------------------------------------------------------- */
@@ -159,69 +86,85 @@ function LinkPanel({ title, items }) {
  * PAGE
  * --------------------------------------------------------------------------- */
 export default function Tools() {
+    const [selectedIndex, setSelectedIndex] = useState(null);
+
     return (
-        <PageShell>
-            {/* --- Top section: description + two “glass” panels --- */}
-            <section className={`${UI.container} ${UI.section}`}>
-                <div className={UI.topGrid}>
-                    {/* Left: Description (copy unchanged, just padding is governed by UI.container) */}
-                    <div className="space-y-4">
-                        <h2 className="text-3xl font-semibold">ROMX</h2>
-                        <p className="text-white/80 leading-relaxed">
-                            One integrated solution for Maintenance Tracking (TLMC), Utilization,
-                            Inventory Management (multi-site/owners), Airworthiness Directives
-                            (Compliance), and reporting. Built for flight-grade reliability.
-                        </p>
+        <>
+            <PageShell>
+                {/* --- Top section: description + two “glass” panels --- */}
+                <section className={`${UI.container} ${UI.section}`}>
+                    <div className={UI.topGrid}>
+                        {/* Left: Description (copy unchanged, just padding is governed by UI.container) */}
+                        <div className="space-y-4">
+                            <h2 className="text-3xl font-semibold">ROMX</h2>
+                            <p className="text-white/80 leading-relaxed">
+                                One integrated solution for Maintenance Tracking (TLMC), Utilization,
+                                Inventory Management (multi-site/owners), Airworthiness Directives
+                                (Compliance), and reporting. Built for flight-grade reliability.
+                            </p>
+                        </div>
+
+                        {/* Middle: Tools in Preview */}
+                        <LinkPanel title="Tools in Preview" items={PREVIEW_TOOLS} />
+
+                        {/* Right: Legacy Help */}
+                        <LinkPanel title="Legacy Help" items={LEGACY_HELP} />
                     </div>
+                </section>
 
-                    {/* Middle: Tools in Preview */}
-                    <LinkPanel title="Tools in Preview" items={PREVIEW_TOOLS} />
+                {/* --- Photo Gallery (Albums) --- */}
+                <section className={`${UI.container} ${UI.section}`}>
+                    <h3 className="col-span-full text-3xl font-semibold">Photo Gallery</h3>
 
-                    {/* Right: Legacy Help */}
-                    <LinkPanel title="Legacy Help" items={LEGACY_HELP} />
-                </div>
-            </section>
-
-            {/* --- Photo Gallery (Albums) --- */}
-            <section className={`${UI.container} ${UI.section}`}>
-                <h3 className="col-span-full text-3xl font-semibold">Photo Gallery</h3>
-
-                <div className={UI.albumGrid}>
-                    {ALBUMS.map((a) => (
-                        <Link
-                            key={a.slug}
-                            to={`/gallery/${a.slug}`} // if using React Router, replace with <Link to=...>
-                            className={UI.albumCard}
-                        >
-                            {/* Folder-style header */}
-                            <div className="flex items-center gap-3 px-4 pt-4">
-                                <FolderIcon />
-                                <div className="font-semibold">{a.title}</div>
-                                <div className="ml-auto text-sm text-white/70">{a.count} photos</div>
-                            </div>
-
-                            {/* Cover image */}
-                            <div className="relative w-full aspect-[4/3] mt-3">
-                                <img
-                                    src={a.cover}
-                                    alt={`${a.title} cover`}
-                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                                    loading="lazy"
-                                />
-                                <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
-                                    <p className="text-white/90 text-sm">{a.blurb}</p>
+                    <div className={UI.albumGrid}>
+                        {TOOL_ALBUMS.map((a, index) => (
+                            <article
+                                key={a.slug}
+                                className={UI.albumCard}
+                            >
+                                <div className="flex items-center gap-3 px-4 pt-4">
+                                    <FolderIcon />
+                                    <div className="font-semibold">{a.title}</div>
+                                    <div className="ml-auto text-sm text-white/70">{a.count} photos</div>
                                 </div>
-                            </div>
 
-                            {/* CTA footer */}
-                            <div className="px-4 py-3 flex items-center gap-2 text-sky-300">
-                                Open album <ArrowRight />
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
-        </PageShell>
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedIndex(index)}
+                                    className="relative w-full aspect-[4/3] mt-3 text-left"
+                                    aria-label={`Preview ${a.title} cover`}
+                                >
+                                    <img
+                                        src={a.cover}
+                                        alt={`${a.title} cover`}
+                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                                        loading="lazy"
+                                    />
+                                    <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
+                                        <p className="text-white/90 text-sm">{a.blurb}</p>
+                                    </div>
+                                </button>
+
+                                <div className="px-4 py-3 flex items-center gap-2 text-sky-300">
+                                    <Link to={`/gallery/${a.slug}`} className="inline-flex items-center gap-2 hover:underline">
+                                        Open album <ArrowRight />
+                                    </Link>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            </PageShell>
+
+            <ImageLightbox
+                src={selectedIndex !== null ? TOOL_ALBUMS[selectedIndex]?.cover : null}
+                alt={selectedIndex !== null ? `${TOOL_ALBUMS[selectedIndex]?.title} cover` : ''}
+                onClose={() => setSelectedIndex(null)}
+                canNavigate={selectedIndex !== null && TOOL_ALBUMS.length > 1}
+                onPrev={() => setSelectedIndex((current) => (current - 1 + TOOL_ALBUMS.length) % TOOL_ALBUMS.length)}
+                onNext={() => setSelectedIndex((current) => (current + 1) % TOOL_ALBUMS.length)}
+            />
+        </>
     );
 }
 

@@ -11,7 +11,7 @@ export default function App() {
 
       <div className="relative z-10 flex min-h-dvh flex-col">
         <NavBar />
-        <main className="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+        <main className="flex-1 px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
           <div className="mx-auto max-w-6xl">
             <AppRoutes />
           </div>

@@ -1,0 +1,44 @@
+@media (max-width: 767px) {
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(4px);
+  }
+
+  .lightbox-image {
+    max-width: 96vw;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 0.75rem;
+  }
+
+  .lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.92);
+    border-radius: 9999px;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .lightbox-nav-btn--left {
+    left: 0.5rem;
+  }
+
+  .lightbox-nav-btn--right {
+    right: 0.5rem;
+  }
+}

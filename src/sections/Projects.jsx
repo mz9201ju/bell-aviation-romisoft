@@ -2,21 +2,7 @@
 import PageShell from './_PageShell';
 import { Link } from "react-router-dom";
 import { FolderIcon } from "lucide-react"; // same as gallery icons
-
-const PROJECTS = [
-    {
-        slug: "comparison_module",
-        title: "Comparison Module",
-        description: "Summary, Range, Wizard",
-        count: "3 Pictures",
-    },
-    {
-        slug: "cost_analyzer",
-        title: "Cost Analyzer",
-        description: "Lone, Deprication Wizard, Reporting, Export, Summary Analysis",
-        count: "5 Pictures",
-    }
-];
+import { PROJECTS } from "../data/projectsData";
 
 export default function Projects() {
     return (

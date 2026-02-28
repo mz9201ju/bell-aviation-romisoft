@@ -7,7 +7,7 @@ export default function Home() {
             title="Aviation Services & Software"
             blurb="for Aviation Professionals"
         >
-            <div className="glass rounded-2xl p-6 sm:col-span-2 backdrop-blur-md bg-black/30 text-white shadow-lg">
+            <div className="glass rounded-2xl p-6 col-span-full backdrop-blur-md bg-black/30 text-white shadow-lg">
                 <h3 className="text-xl text-white font-semibold mb-2 text-glow">Aircraft Maintenance, Repair & Inspections</h3>
                 <p className="text-white/80 mb-4 text-glow">Bell Aviation Services has a rich history in Aircraft Maintenance,
                     Repair, Operations, Worldwide Recovery,
@@ -26,7 +26,7 @@ export default function Home() {
                 <img
                     src={NBAA_LOGO}
                     alt="NBAA"
-                    className="h-8 sm:h-15 w-auto opacity-90 hover:opacity-100 transition ml-auto"
+                    className="h-8 sm:h-12 w-auto opacity-90 hover:opacity-100 transition ml-auto mt-4"
                 />
 
             </div>

@@ -13,34 +13,67 @@ const FADE_MS = 1200;   // fade duration
 
 export default function AviationBackground() {
   const [index, setIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(null);
+  const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setIndex((i) => (i + 1) % IMAGES.length);
+      setIndex((currentIndex) => {
+        setPrevIndex(currentIndex);
+        setIsFading(true);
+        return (currentIndex + 1) % IMAGES.length;
+      });
     }, SLIDE_MS);
+
     return () => clearInterval(id);
   }, []);
 
+  useEffect(() => {
+    if (!isFading) return;
+
+    const id = setTimeout(() => {
+      setIsFading(false);
+      setPrevIndex(null);
+    }, FADE_MS);
+
+    return () => clearTimeout(id);
+  }, [isFading]);
+
+  useEffect(() => {
+    const preload = new Image();
+    const nextIndex = (index + 1) % IMAGES.length;
+    preload.src = IMAGES[nextIndex];
+  }, [index]);
+
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
-      {/* Cross-fade layers with Ken Burns drift; object-cover keeps framing correct */}
-      {IMAGES.map((src, i) => (
+      <img
+          key={`active-${index}`}
+          src={IMAGES[index]}
+          alt=""
+          className="absolute inset-0 w-full h-full animate-kenburns"
+          style={{ objectPosition: "center 35%" }}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+      />
+
+      {prevIndex !== null && (
         <img
-          key={src}
-          src={src}
+          key={`prev-${prevIndex}`}
+          src={IMAGES[prevIndex]}
           alt=""
           className={[
             "absolute inset-0 w-full h-full",
             "transition-opacity ease-in-out",
-            `duration-[${FADE_MS}ms]`,
-            // remove motion-safe: if you ALWAYS want animation
             "animate-kenburns",
-            i === index ? "opacity-100" : "opacity-0",
+            isFading ? "opacity-0" : "opacity-100",
           ].join(" ")}
-          // Tip: nudge the focal point if needed (e.g., raise the plane)
-          style={{ objectPosition: "center 35%" }}
+          style={{ objectPosition: "center 35%", transitionDuration: `${FADE_MS}ms` }}
+          loading="eager"
+          decoding="async"
         />
-      ))}
+      )}
 
       {/* 🩶 Gentle contrast overlay so text stays readable */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/40 via-black/60 to-black/60" />

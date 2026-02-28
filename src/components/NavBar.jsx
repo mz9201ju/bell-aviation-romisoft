@@ -1,40 +1,27 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AppIcon from "./AppIcon";
+import { NAV_ITEMS } from "../data/navigation";
 
-const nav = [
-    { to: "/", label: "Home" },
-    { to: "/news", label: "News" },
-    { to: "/service", label: "Service" },
-    { to: "/aircraft", label: "Aircraft" },
-    { to: "/tools", label: "Tools" },
-    { to: "/projects", label: "Projects" },
-    { to: "/about", label: "About Us" },
-    { to: "/contact", label: "Contact" },
-];
+const COLORS = {
+    text: "text-white",
+    textDim: "text-white/60",
+    activeText: "text-sky-400",
+    hoverText: "hover:text-sky-300",
+    hoverBg: "hover:bg-white/5",
+    activeBg: "bg-white/10",
+};
+
+const BASE_NAV_CLASS =
+    "text-sm font-semibold tracking-wide px-3 py-2 rounded-xl transition-colors duration-300";
 
 export default function NavBar() {
     const [open, setOpen] = useState(false);
 
-    // 🎨 Easy color configuration
-    const colors = {
-        text: "text-white",
-        textDim: "text-white/60",
-        activeText: "text-sky-400",
-        hoverText: "hover:text-sky-300",
-        hoverBg: "hover:bg-white/5",
-        activeBg: "bg-white/10",
-    };
-
-    // 🧠 Shared base style
-    const base =
-        "text-sm font-semibold tracking-wide px-3 py-2 rounded-xl transition-colors duration-300";
-
-    // 🧭 Combine active/inactive logic
     const navClass = ({ isActive }) =>
-        `${base} ${isActive
-            ? `${colors.activeText} ${colors.activeBg}`
-            : `${colors.text} ${colors.hoverText} ${colors.hoverBg}`
+        `${BASE_NAV_CLASS} ${isActive
+            ? `${COLORS.activeText} ${COLORS.activeBg}`
+            : `${COLORS.text} ${COLORS.hoverText} ${COLORS.hoverBg}`
         }`;
 
     return (
@@ -43,13 +30,13 @@ export default function NavBar() {
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-10 py-3">
                 <div className="glass flex items-center justify-between rounded-2xl px-4 py-3 backdrop-blur-md">
                     {/* Brand */}
-                    <Link to="/" className="flex items-center gap-3">
+                    <Link to="/" className="flex min-w-0 items-center gap-3">
                         <AppIcon />
-                        <div className="leading-tight">
-                            <div className={`font-bold ${colors.text}`}>
-                                <span className={colors.activeText}>Bell Aviation Services / ROMISOFT</span>
+                        <div className="leading-tight min-w-0">
+                            <div className={`font-bold ${COLORS.text} text-sm sm:text-base truncate`}>
+                                <span className={COLORS.activeText}>Bell Aviation Services / ROMISOFT</span>
                             </div>
-                            <div className={`text-xs ${colors.textDim}`}>
+                            <div className={`text-xs ${COLORS.textDim} truncate`}>
                                 Flight-grade solutions
                             </div>
                         </div>
@@ -57,7 +44,7 @@ export default function NavBar() {
 
                     {/* Desktop nav */}
                     <nav className="hidden md:flex items-center gap-1">
-                        {nav.map((n) => (
+                        {NAV_ITEMS.map((n) => (
                             <NavLink
                                 key={n.to}
                                 to={n.to}
@@ -98,14 +85,14 @@ export default function NavBar() {
             {open && (
                 <div className="md:hidden mx-auto max-w-6xl px-4 sm:px-6 lg:px-10 pb-3">
                     <div className="glass rounded-2xl px-2 py-2">
-                        {nav.map((n) => (
+                        {NAV_ITEMS.map((n) => (
                             <NavLink
                                 key={n.to}
                                 to={n.to}
                                 className={({ isActive }) =>
                                     `block px-4 py-3 rounded-xl ${isActive
-                                        ? `${colors.activeBg} ${colors.activeText}`
-                                        : `${colors.text} ${colors.hoverText} ${colors.hoverBg}`
+                                        ? `${COLORS.activeBg} ${COLORS.activeText}`
+                                        : `${COLORS.text} ${COLORS.hoverText} ${COLORS.hoverBg}`
                                     }`
                                 }
                                 onClick={() => setOpen(false)}
