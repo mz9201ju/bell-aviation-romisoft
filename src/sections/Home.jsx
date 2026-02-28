@@ -7,7 +7,7 @@ export default function Home() {
             title="Aviation Services & Software"
             blurb="for Aviation Professionals"
         >
-            <div className="glass rounded-2xl p-6 col-span-full backdrop-blur-md bg-black/30 text-white shadow-lg">
+            <div className="rounded-2xl p-6 col-span-full text-white shadow-lg">
                 <h3 className="text-xl text-white font-semibold mb-2 text-glow">Aircraft Maintenance, Repair & Inspections</h3>
                 <p className="text-white/80 mb-4 text-glow">Bell Aviation Services has a rich history in Aircraft Maintenance,
                     Repair, Operations, Worldwide Recovery,
