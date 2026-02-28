@@ -33,7 +33,7 @@ body {
 
 
 .glass {
-  @apply backdrop-blur-md bg-white/5 border border-white/10 shadow-xl;
+  @apply backdrop-blur-lg bg-black/45 border border-white/20 shadow-2xl;
 }
 
 
@@ -46,7 +46,7 @@ body {
 }
 
 .text-glow {
-  text-shadow: 0 2px 10px rgb(3, 0, 0);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 0, 0, 0.45);
 }
 
 .lightbox-overlay {

@@ -1,8 +1,8 @@
 import PageShell from './_PageShell';
 export default function Contact() {
     return (
-        <PageShell title="Contact" blurb="Ping us—wheels up within 24 hours.">
-            <form className="glass rounded-2xl p-5 sm:p-6 grid gap-4 w-full max-w-xl col-span-full">
+        <PageShell title="Contact" blurb="Ping us—wheels up within 24 hours." align="center">
+            <form className="glass rounded-2xl p-5 sm:p-6 grid gap-4 w-full max-w-xl col-span-full mx-auto">
                 <input className="rounded-lg bg-white/10 border border-white/10 px-3 py-2.5" placeholder="Name" />
                 <input className="rounded-lg bg-white/10 border border-white/10 px-3 py-2.5" placeholder="Email" />
                 <textarea className="rounded-lg bg-white/10 border border-white/10 px-3 py-2.5" rows="4" placeholder="How can we help?" />

@@ -12,14 +12,14 @@ const UI = {
         card: "glass rounded-2xl p-6 border border-white/10",
         h1: "text-3xl sm:text-4xl font-bold text-glow",
         h2: "text-2xl font-semibold text-glow",
-        tag: "text-white/70 text-glow",
-        body: "text-white/80 text-glow",
-        small: "text-white/60 text-sm",
+        tag: "text-white/90 text-glow",
+        body: "text-white/95 text-glow",
+        small: "text-white/85 text-sm",
         input:
             "rounded-lg bg-white/10 border border-white/10 px-3 py-2 outline-none focus:ring-2 focus:ring-white/20",
         btn:
             "rounded-xl bg-white/15 px-4 py-2 border border-white/10 hover:bg-white/25 transition font-semibold",
-        commentItem: "rounded-xl bg-white/5 border border-white/10 p-3",
+        commentItem: "rounded-xl bg-white/10 border border-white/20 p-3",
     },
     img: {
         height: "h-56",

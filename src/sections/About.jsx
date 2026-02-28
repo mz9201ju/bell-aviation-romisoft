@@ -13,8 +13,8 @@ const UI = {
         card: "glass rounded-2xl p-6 border border-white/10",
         h1: "text-3xl sm:text-4xl font-bold text-glow",
         h2: "text-2xl font-semibold text-glow",
-        tag: "text-white/70 text-glow",
-        body: "text-white/80 text-glow",
+        tag: "text-white/90 text-glow",
+        body: "text-white/95 text-glow",
     },
     img: {
         height: "h-56",

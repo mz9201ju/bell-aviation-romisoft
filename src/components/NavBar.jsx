@@ -5,7 +5,7 @@ import { NAV_ITEMS } from "../data/navigation";
 
 const COLORS = {
     text: "text-white",
-    textDim: "text-white/60",
+    textDim: "text-white/85",
     activeText: "text-sky-400",
     hoverText: "hover:text-sky-300",
     hoverBg: "hover:bg-white/5",

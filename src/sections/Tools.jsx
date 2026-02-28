@@ -97,7 +97,7 @@ export default function Tools() {
                         {/* Left: Description (copy unchanged, just padding is governed by UI.container) */}
                         <div className="space-y-4">
                             <h2 className="text-3xl font-semibold">ROMX</h2>
-                            <p className="text-white/80 leading-relaxed">
+                            <p className="text-white/95 leading-relaxed text-glow">
                                 One integrated solution for Maintenance Tracking (TLMC), Utilization,
                                 Inventory Management (multi-site/owners), Airworthiness Directives
                                 (Compliance), and reporting. Built for flight-grade reliability.
@@ -125,7 +125,7 @@ export default function Tools() {
                                 <div className="flex items-center gap-3 px-4 pt-4">
                                     <FolderIcon />
                                     <div className="font-semibold">{a.title}</div>
-                                    <div className="ml-auto text-sm text-white/70">{a.count} photos</div>
+                                    <div className="ml-auto text-sm text-white/90 text-glow">{a.count} photos</div>
                                 </div>
 
                                 <button
